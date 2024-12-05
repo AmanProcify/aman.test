@@ -1,11 +1,10 @@
-import React, { useState } from "react";
-import { useAuth } from "../context/AuthContext"; // Auth context to manage user login
-import { useNavigate } from "react-router-dom"; // To navigate after login
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import '../styles/LoginForm.css';  // Import the CSS file for styling
 
 const LoginForm = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const { login } = useAuth();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
   const handleLogin = (e) => {
@@ -13,36 +12,49 @@ const LoginForm = () => {
 
     // Example authentication logic (you can replace with real authentication)
     if (username === "admin" && password === "admin") {
-      login({ username, role: "admin" });
-      navigate("/admin-dashboard"); // Redirect to Admin Dashboard after login
+      navigate("/admin-dashboard");
     } else if (username === "manager" && password === "manager") {
-      login({ username, role: "manager" });
-      navigate("/manager-dashboard"); // Redirect to Manager Dashboard after login
+      navigate("/manager-dashboard");
     } else if (username === "user" && password === "user") {
-      login({ username, role: "user" });
-      navigate("/dashboard"); // Redirect to User Dashboard after login
+      navigate("/dashboard");
     } else {
       alert("Invalid credentials!");
     }
   };
 
   return (
-    <form onSubmit={handleLogin}>
-      <h2>Login</h2>
-      <input
-        type="text"
-        placeholder="Username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button type="submit">Login</button>
-    </form>
+    <div className="login-container">
+      <div className="login-form">
+        <h2>Login</h2>
+        <form onSubmit={handleLogin}>
+          <div className="input-group">
+            <label htmlFor="username">Username</label>
+            <input 
+              type="text" 
+              id="username" 
+              placeholder="Enter your username" 
+              value={username} 
+              onChange={(e) => setUsername(e.target.value)} 
+              required 
+            />
+          </div>
+          
+          <div className="input-group">
+            <label htmlFor="password">Password</label>
+            <input 
+              type="password" 
+              id="password" 
+              placeholder="Enter your password" 
+              value={password} 
+              onChange={(e) => setPassword(e.target.value)} 
+              required 
+            />
+          </div>
+
+          <button type="submit" className="btn-login">Login</button>
+        </form>
+      </div>
+    </div>
   );
 };
 
