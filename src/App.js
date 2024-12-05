@@ -1,31 +1,42 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom"; 
-import LoginForm from "./components/LoginForm"; // Your LoginForm component
-// import Home from "./pages/Home"; // Your Home component
-import Dashboard from "./pages/Dashboard";
-import AdminDashboard from "./pages/AdminDashboard";
-import ManagerDashboard from "./pages/ManagerDashboard";
-import { AuthProvider } from "./context/AuthContext"; // Your AuthContext to manage login state
+import React, { useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import LoginForm from './components/LoginForm';
+import Home from './pages/Home';
+import Dashboard from './pages/Dashboard';
+import AdminDashboard from './pages/AdminDashboard';
+import ManagerDashboard from './pages/ManagerDashboard';
+import './App.css';
 
 function App() {
   return (
-    <AuthProvider>
-      <Router>
+    <Router>
+      <BackgroundHandler>
         <Routes>
-          {/* Route for Login page */}
           <Route path="/login" element={<LoginForm />} />
-
-          {/* Redirect default route (/) to login */}
-          <Route path="/" element={<Navigate to="/login" />} />
-
-          {/* Routes for dashboards (to be protected after login) */}
+          <Route path="/home" element={<Home />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
           <Route path="/manager-dashboard" element={<ManagerDashboard />} />
         </Routes>
-      </Router>
-    </AuthProvider>
+      </BackgroundHandler>
+    </Router>
   );
+}
+
+// Component to handle background styles based on the route
+function BackgroundHandler({ children }) {
+  const location = useLocation();
+
+  useEffect(() => {
+    // Add the 'login-page' class to the body if we're on the login route
+    if (location.pathname === '/login') {
+      document.body.classList.add('login-page');
+    } else {
+      document.body.classList.remove('login-page');
+    }
+  }, [location]);
+
+  return children;
 }
 
 export default App;

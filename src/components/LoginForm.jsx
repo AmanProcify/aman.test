@@ -1,11 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../styles/LoginForm.css';  // Import the CSS file for styling
+import '../styles/LoginForm.css'; // Import the CSS file for styling
 
 const LoginForm = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+
+  // UseEffect to add a class to the body for background styling
+  useEffect(() => {
+    document.body.classList.add('login-page');
+
+    // Clean up when the component unmounts (to remove the class)
+    return () => {
+      document.body.classList.remove('login-page');
+    };
+  }, []);
 
   const handleLogin = (e) => {
     e.preventDefault();

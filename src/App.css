@@ -1,23 +1,80 @@
-.App {
-  text-align: center;
+/* Apply background only on the login page */
+body.login-page {
+  background: url('./assets/images/login-background.jpg') no-repeat center center fixed;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* Default background for other pages */
+body {
+  background-color: #f0f0f0; /* Default background for non-login pages */
+  margin: 0;
+  font-family: 'Arial', sans-serif;
 }
 
-.App-header {
-  background-color: #282c34;
+/* Additional styling for the Admin Dashboard */
+.admin-dashboard {
+  background-color: #f4f6f9;
+  padding: 30px;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+/* Styling for the cards and header */
+.dashboard-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.dashboard-header h2 {
+  font-size: 2rem;
+  color: #333;
+}
+
+.dashboard-header p {
+  font-size: 1rem;
+  color: #666;
+}
+
+.dashboard-cards {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.card {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 250px;
+  text-align: center;
+}
+
+.card h3 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.card p {
+  font-size: 2rem;
+  color: #4CAF50;
+  font-weight: bold;
+}
+
+.dashboard-footer {
+  margin-top: auto;
+  text-align: center;
+  font-size: 1rem;
+  color: #777;
 }
