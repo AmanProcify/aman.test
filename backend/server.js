@@ -1,9 +1,14 @@
-require('dotenv').config(); // Load environment variables from .env
-
+// server.js
 const express = require('express');
-const mysql = require('mysql2');
 const cors = require('cors');
+const dotenv = require('dotenv');
+dotenv.config();
 
+// Import routes
+const authRoutes = require('./routes/auth');
+const employeeRoutes = require('./routes/employees');
+
+// Create an express app
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -11,65 +16,11 @@ const port = process.env.PORT || 5000;
 app.use(express.json());
 app.use(cors());
 
-// MySQL Connection
-const connection = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-});
+// Use routes
+app.use('/api', authRoutes);       // Authentication routes
+app.use('/api/employees', employeeRoutes); // Employee routes
 
-connection.connect((err) => {
-  if (err) {
-    console.error('Error connecting to the database:', err.stack);
-    return;
-  }
-  console.log('Connected to the database');
-});
-
-// Routes
-
-// Root Route
-app.get('/', (req, res) => {
-  res.send('Backend is running!');
-});
-
-// API Route for Login
-app.post('/api/login', (req, res) => {
-  const { username, password } = req.body;
-
-  if (!username || !password) {
-    return res.status(400).json({ error: 'Username and password are required' });
-  }
-
-  // Query the database for the user
-  const query = 'SELECT * FROM users WHERE username = ?';
-  connection.query(query, [username], (err, results) => {
-    if (err) {
-      console.error('Database query error:', err);
-      return res.status(500).json({ error: 'Internal server error' });
-    }
-
-    if (results.length === 0) {
-      return res.status(401).json({ error: 'Invalid username or password' });
-    }
-
-    const user = results[0];
-
-    // Check if the password matches (no hashing for now, just plain text comparison)
-    if (user.password !== password) {
-      return res.status(401).json({ error: 'Invalid username or password' });
-    }
-
-    // Respond with user role and a success message
-    res.json({
-      message: 'Login successful',
-      role: user.role,
-    });
-  });
-});
-
-// Start the Server
+// Start server
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });

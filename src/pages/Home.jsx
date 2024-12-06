@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { fetchBackendStatus } from '../utils/api';
+import { fetchBackendStatus } from '../utils/api.js';
 
 const Home = () => {
   const [backendMessage, setBackendMessage] = useState('');
