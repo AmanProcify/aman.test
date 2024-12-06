@@ -1,13 +1,26 @@
-import React from "react";
-import { useAuth } from "../context/AuthContext";
+import React, { useEffect, useState } from 'react';
+import { fetchBackendStatus } from '../utils/api';
 
 const Home = () => {
-  const { user } = useAuth();
+  const [backendMessage, setBackendMessage] = useState('');
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await fetchBackendStatus();
+        setBackendMessage(data);
+      } catch (error) {
+        setBackendMessage('Error connecting to backend');
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div>
       <h1>Welcome to the Home Page!</h1>
-      {user && <p>Logged in as: {user.username}</p>}
+      <p>Backend Status: {backendMessage}</p>
     </div>
   );
 };
